@@ -1,0 +1,96 @@
+/* ====================================================================
+   KEYBOARD COMPONENT
+   ================================================================== */
+.keyboard {
+    background: #2c2e31;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 40px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+
+.key {
+    background: #323437;
+    color: #646669;
+    border: 1px solid #404040;
+    margin: 1px;
+    padding: 8px;
+    border-radius: 6px;
+    min-width: 45px;
+    min-height: 45px;
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.85em;
+    transition: all 0.1s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.key:hover {
+    background: #404040;
+    color: #d1d0c5;
+}
+
+.key.active {
+    background: #e2b714;
+    color: #323437;
+    border-color: #e2b714;
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(226, 183, 20, 0.4);
+}
+
+.key.next-key {
+    background: #4a90e2;
+    color: #ffffff;
+    border-color: #4a90e2;
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(74, 144, 226, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(74, 144, 226, 0.4);
+    }
+}
+
+.key-main {
+    font-size: 1.1em;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.key-sub {
+    font-size: 0.8em;
+    opacity: 0.6;
+    margin-top: 2px;
+    line-height: 1;
+}
+
+.key.space {
+    width: 240px;
+}
+
+.key.enter {
+    width: 85px;
+}
+
+.key.tab, .key.caps, .key.shift {
+    width: 70px;
+    font-size: 0.7em;
+}

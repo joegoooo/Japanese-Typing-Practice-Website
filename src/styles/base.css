@@ -1,0 +1,40 @@
+/* ====================================================================
+   BASE STYLES & TYPOGRAPHY
+   ================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto Mono', 'Consolas', 'Monaco', monospace;
+    background: #323437;
+    color: #d1d0c5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Scrollbar styling for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2e31;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #646669;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d1d0c5;
+}
