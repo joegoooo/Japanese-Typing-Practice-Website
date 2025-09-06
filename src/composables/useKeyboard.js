@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { KEYBOARD_LAYOUT, SHIFT_KEYBOARD_LAYOUT, DAKUTEN_MAP } from '../config/gameConfig.js'
 import { GameUtils } from '../utils/gameUtils.js'
 
-export function useKeyboard(currentWord, charIndex, dakutenIndex) {
+export function useKeyboard(currentTypingSequence, charIndex, dakutenIndex) {
     const activeKey = ref('')
     const isShiftPressed = ref(false)
     const showJapaneseLayout = ref(true)
@@ -19,27 +19,17 @@ export function useKeyboard(currentWord, charIndex, dakutenIndex) {
 
     // Next key highlighting
     const nextKey = computed(() => {
-        if (!currentWord.value || charIndex.value >= currentWord.value.length) {
+        if (!currentTypingSequence.value || charIndex.value >= currentTypingSequence.value.length) {
+            if(currentTypingSequence.value) console.log(charIndex.value, currentTypingSequence.value.length)
             return null
         }
         
-        const nextChar = GameUtils.isKatakana(currentWord.value[charIndex.value]) 
-            ? GameUtils.katakanaToHiraganaMap[currentWord.value[charIndex.value]] 
-            : currentWord.value[charIndex.value] 
+        const nextChar = GameUtils.isKatakana(currentTypingSequence.value[charIndex.value]) 
+            ? GameUtils.katakanaToHiraganaMap[currentTypingSequence.value[charIndex.value]] 
+            : currentTypingSequence.value[charIndex.value] 
         
-        console.log('nextKey computed - nextChar:', nextChar, 'dakutenIndex:', dakutenIndex.value)
-        
-        // Check if it's a dakuten character
-        if (DAKUTEN_MAP[nextChar]) {
-            const typingSequence = DAKUTEN_MAP[nextChar]
-            const targetChar = typingSequence[dakutenIndex.value] || typingSequence[0]
-            console.log('Dakuten character detected:', { nextChar, typingSequence, targetChar, dakutenIndex: dakutenIndex.value })
-            
-            return GameUtils.findKeyForCharacter(targetChar, currentLayout.value)
-        } else {
-            // Regular character
-            return GameUtils.findKeyForCharacter(nextChar, currentLayout.value)
-        }
+        console.log('nextKey computed - nextChar:', nextChar)
+        return GameUtils.findKeyForCharacter(nextChar, currentLayout.value)        
     })
 
     const toggleKeyboardLayout = () => {

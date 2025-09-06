@@ -91,6 +91,11 @@
 }
 
 .key.tab, .key.caps, .key.shift {
-    width: 70px;
+    width: 100px;
+    font-size: 0.7em;
+}
+
+.key.backspace {
+    width: 150px;
     font-size: 0.7em;
 }

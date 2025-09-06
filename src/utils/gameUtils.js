@@ -59,7 +59,9 @@ export const GameUtils = {
         'ァ': 'ぁ', 'ィ': 'ぃ', 'ゥ': 'ぅ', 'ェ': 'ぇ', 'ォ': 'ぉ',
         
         // Extended katakana
-        'ヴ': 'ゔ', 'ヵ': 'ゕ', 'ヶ': 'ゖ'
+        'ヴ': 'ゔ', 'ヵ': 'ゕ', 'ヶ': 'ゖ',
+
+        'ー': 'ー'
     },
 
     /**
@@ -83,9 +85,9 @@ export const GameUtils = {
         // Convert katakana to hiragana if needed
         let targetChar = character
         if (this.isKatakana(character)) {
-            targetChar = this.katakanaToHiraganaMap[character] || character
+            targetChar = this.katakanaToHiraganaMap[character]
         }
-
+        
         const allKeys = [
             ...keyboardLayout.row1, 
             ...keyboardLayout.row2, 

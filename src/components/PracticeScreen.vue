@@ -2,10 +2,9 @@
   <div 
     class="practice-screen"
     tabindex="0"
+    @input="onInput"
     @keydown.prevent="onKeyDown"
     @keyup="onKeyUp"
-    @compositionstart="onCompositionStart"
-    @compositionend="onCompositionEnd"
   >
     <div class="practice-container">
       <!-- Header -->
@@ -21,14 +20,14 @@
             :get-character-class="getCharacterClass"
           />
 
-          <InputArea
+          <!-- <InputArea
             ref="inputAreaRef"
             @input="onInput"
             @keydown="onKeyDown"
             @keyup="onKeyUp"
             @compositionstart="onCompositionStart"
             @compositionend="onCompositionEnd"
-          />
+          /> -->
       </div>
 
       <!-- Keyboard -->
@@ -67,6 +66,7 @@ const emit = defineEmits(['game-completed'])
 // Composables
 const {
     currentWord,
+    currentTypingSequence,
     userInput,
     charIndex,
     wordsCompleted,
@@ -91,15 +91,13 @@ const {
     row4,
     nextKey,
     toggleKeyboardLayout
-} = useKeyboard(currentWord, charIndex, dakutenIndex)
+} = useKeyboard(currentTypingSequence, charIndex, dakutenIndex)
 
 const {
     isComposing,
     processInput,
     handleKeyDown,
     handleKeyUp,
-    handleCompositionStart,
-    handleCompositionEnd
 } = useInputHandler()
 
 // Refs
@@ -110,27 +108,22 @@ const onInput = (event) => {
     if (isComposing.value) return
     
     processInput({
-        inputField: event.target,
-        inputValue: event.target.value,
-        userInput,
-        currentWord,
-        isWordComplete,
-        correctChars,
-        totalChars,
-        charIndex,
-        nextWord
+        currentTypingSequence,
+        charIndex, 
+        nextWord 
     })
 }
 
 const onKeyDown = (event) => {
     handleKeyDown({
-        event,
-        isShiftPressed,
-        activeKey,
-        nextKey,
+        event, 
+        isShiftPressed, 
+        activeKey, 
+        nextKey, 
         charIndex,
         dakutenIndex,
-        currentWord
+        currentTypingSequence, 
+        nextWord
     })
 }
 
@@ -142,17 +135,17 @@ const onKeyUp = (event) => {
     })
 }
 
-const onCompositionStart = () => {
-    handleCompositionStart()
-}
+// const onCompositionStart = () => {
+//     handleCompositionStart()
+// }
 
-const onCompositionEnd = (event) => {
-    handleCompositionEnd(event, () => {
-        if (inputAreaRef.value) {
-            onInput({ target: inputAreaRef.value.getInputElement() })
-        }
-    })
-}
+// const onCompositionEnd = (event) => {
+//     handleCompositionEnd(event, () => {
+//         if (inputAreaRef.value) {
+//             onInput({ target: inputAreaRef.value.getInputElement() })
+//         }
+//     })
+// }
 
 // Watch for game completion
 watch(gameEnded, (newValue) => {

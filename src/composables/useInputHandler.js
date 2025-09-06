@@ -4,89 +4,102 @@ import { GAME_CONFIG, DAKUTEN_MAP } from '../config/gameConfig.js'
 export function useInputHandler() {
     const isComposing = ref(false)
 
-    const codeToKey = (code) => {
+    const codeToKey = (code, isShiftPressed = false) => {
         const codeMap = {
-            'Digit1': '1', 'Digit2': '2', 'Digit3': '3', 'Digit4': '4', 'Digit5': '5',
-            'Digit6': '6', 'Digit7': '7', 'Digit8': '8', 'Digit9': '9', 'Digit0': '0',
-            'Minus': '-', 'Equal': '=', 'Backquote': '`',
-            'KeyQ': 'q', 'KeyW': 'w', 'KeyE': 'e', 'KeyR': 'r', 'KeyT': 't',
-            'KeyY': 'y', 'KeyU': 'u', 'KeyI': 'i', 'KeyO': 'o', 'KeyP': 'p',
-            'BracketLeft': '[', 'BracketRight': ']', 'Backslash': '\\',
-            'KeyA': 'a', 'KeyS': 's', 'KeyD': 'd', 'KeyF': 'f', 'KeyG': 'g',
-            'KeyH': 'h', 'KeyJ': 'j', 'KeyK': 'k', 'KeyL': 'l',
-            'Semicolon': ';', 'Quote': "'",
-            'KeyZ': 'z', 'KeyX': 'x', 'KeyC': 'c', 'KeyV': 'v', 'KeyB': 'b',
-            'KeyN': 'n', 'KeyM': 'm', 'Comma': ',', 'Period': '.', 'Slash': '/',
-            'Space': 'space', 'Enter': 'enter', 'Backspace': 'backspace',
-            'Tab': 'tab', 'ShiftLeft': 'shift', 'ShiftRight': 'shift'
+            'Digit1': isShiftPressed ? '!' : '1',
+            'Digit2': isShiftPressed ? '@' : '2',
+            'Digit3': isShiftPressed ? '#' : '3',
+            'Digit4': isShiftPressed ? '$' : '4',
+            'Digit5': isShiftPressed ? '%' : '5',
+            'Digit6': isShiftPressed ? '^' : '6',
+            'Digit7': isShiftPressed ? '&' : '7',
+            'Digit8': isShiftPressed ? '*' : '8',
+            'Digit9': isShiftPressed ? '(' : '9',
+            'Digit0': isShiftPressed ? ')' : '0',
+            'Minus': isShiftPressed ? '_' : '-',
+            'Equal': isShiftPressed ? '+' : '=',
+            'Backquote': isShiftPressed ? '~' : '`',
+            'KeyQ': isShiftPressed ? 'Q' : 'q',
+            'KeyW': isShiftPressed ? 'W' : 'w',
+            'KeyE': isShiftPressed ? 'E' : 'e',
+            'KeyR': isShiftPressed ? 'R' : 'r',
+            'KeyT': isShiftPressed ? 'T' : 't',
+            'KeyY': isShiftPressed ? 'Y' : 'y',
+            'KeyU': isShiftPressed ? 'U' : 'u',
+            'KeyI': isShiftPressed ? 'I' : 'i',
+            'KeyO': isShiftPressed ? 'O' : 'o',
+            'KeyP': isShiftPressed ? 'P' : 'p',
+            'BracketLeft': isShiftPressed ? '{' : '[',
+            'BracketRight': isShiftPressed ? '}' : ']',
+            'Backslash': isShiftPressed ? '|' : '\\',
+            'KeyA': isShiftPressed ? 'A' : 'a',
+            'KeyS': isShiftPressed ? 'S' : 's',
+            'KeyD': isShiftPressed ? 'D' : 'd',
+            'KeyF': isShiftPressed ? 'F' : 'f',
+            'KeyG': isShiftPressed ? 'G' : 'g',
+            'KeyH': isShiftPressed ? 'H' : 'h',
+            'KeyJ': isShiftPressed ? 'J' : 'j',
+            'KeyK': isShiftPressed ? 'K' : 'k',
+            'KeyL': isShiftPressed ? 'L' : 'l',
+            'Semicolon': isShiftPressed ? ':' : ';',
+            'Quote': isShiftPressed ? '"' : "'",
+            'KeyZ': isShiftPressed ? 'Z' : 'z',
+            'KeyX': isShiftPressed ? 'X' : 'x',
+            'KeyC': isShiftPressed ? 'C' : 'c',
+            'KeyV': isShiftPressed ? 'V' : 'v',
+            'KeyB': isShiftPressed ? 'B' : 'b',
+            'KeyN': isShiftPressed ? 'N' : 'n',
+            'KeyM': isShiftPressed ? 'M' : 'm',
+            'Comma': isShiftPressed ? '<' : ',',
+            'Period': isShiftPressed ? '>' : '.',
+            'Slash': isShiftPressed ? '?' : '/',
+            'Space': 'space',
+            'Enter': 'enter',
+            'Backspace': 'backspace',
+            'Tab': 'tab',
+            'ShiftLeft': 'shift',
+            'ShiftRight': 'shift'
         }
         
         return codeMap[code] || code.toLowerCase()
     }
 
-    const processInput = ({ 
-        inputField, 
-        inputValue, 
-        userInput, 
-        currentWord, 
-        isWordComplete, 
-        correctChars, 
-        totalChars, 
+    function processInput( 
+        currentTypingSequence,
+        activeKey,
+        nextKey,
         charIndex, 
         nextWord 
-    }) => {
-        console.log('processInput →', { 
-            inputValue, 
-            userInput: userInput.value, 
-            expected: currentWord.value 
-        })
+    ) {
+ 
+        
 
-        if (isWordComplete.value) {
-            inputField.value = ''
-            return
+        let nextToType = currentTypingSequence.value[charIndex.value]
+        console.log(charIndex.value, activeKey.value, nextKey.value)
+        if(activeKey.value === nextKey.value) {
+            charIndex.value++
+        }
+        // if(nextToType === 'shift' && !isShiftPressed) {
+        //     charIndex.value--
+        // }
+
+        if(charIndex.value === currentTypingSequence.value.length) {
+            setTimeout(() => {
+                nextWord()
+            }), GAME_CONFIG.WORD_COMPLETION_DELAY || 300
         }
 
-        const expected = currentWord.value
-        const correctSoFar = userInput.value
-
-        // Handle deletion (backspace)
-        if (inputValue.length < correctSoFar.length) {
-            userInput.value = inputValue
-            charIndex.value--
-            console.log(charIndex.value)
-            return
-        }
-
-        // Handle new input
-        if (expected.startsWith(inputValue) && inputValue.length > correctSoFar.length) {
-            const added = inputValue.length - correctSoFar.length
-            userInput.value = inputValue
-            charIndex.value = inputValue.length
-            correctChars.value += added
-            totalChars.value += added
-
-            // Word completion
-            if (userInput.value === expected) {
-                isWordComplete.value = true
-                inputField.value = ''
-                setTimeout(() => {
-                    nextWord()
-                }, GAME_CONFIG.WORD_COMPLETION_DELAY || 300)
-            }
-        } else if (inputValue.length > correctSoFar.length) {
-            totalChars.value++
-            inputField.value = correctSoFar
-        }
     }
 
     const handleKeyDown = ({ 
         event, 
         isShiftPressed, 
         activeKey, 
-        nextKey, 
+        nextKey,
         charIndex,
         dakutenIndex,
-        currentWord 
+        currentTypingSequence, 
+        nextWord
     }) => {
         console.log('handleKeyDown →', event.code)
         
@@ -101,33 +114,44 @@ export function useInputHandler() {
         }
 
         // Set active key for visual feedback
-        activeKey.value = codeToKey(event.code)
-        
+        activeKey.value = codeToKey(event.code, isShiftPressed.value)
+
+        processInput(
+            currentTypingSequence,
+            activeKey,
+            nextKey,
+            charIndex,
+            nextWord
+        )
         // Handle dakuten progression
-        if (nextKey.value === activeKey.value) {
-            const currentChar = currentWord.value[charIndex.value]
+        // if (nextKey.value === activeKey.value) {
+        //     const currentChar = currentWord.value[charIndex.value]
             
-            if (DAKUTEN_MAP[currentChar]) {
-                const typingSequence = DAKUTEN_MAP[currentChar]
-                console.log('Dakuten key pressed:', { 
-                    currentChar, 
-                    typingSequence, 
-                    dakutenIndex: dakutenIndex.value,
-                    expectedKey: typingSequence[dakutenIndex.value]
-                })
+        //     if (DAKUTEN_MAP[currentChar]) {
+        //         const typingSequence = DAKUTEN_MAP[currentChar]
+        //         console.log('Dakuten key pressed:', { 
+        //             currentChar, 
+        //             typingSequence, 
+        //             dakutenIndex: dakutenIndex.value,
+        //             expectedKey: typingSequence[dakutenIndex.value]
+        //         })
                 
-                dakutenIndex.value++
+        //         dakutenIndex.value++
                 
-                if (dakutenIndex.value >= typingSequence.length) {
-                    charIndex.value++
-                    dakutenIndex.value = 0
-                    console.log('Dakuten sequence completed, moving to next character')
-                }
-            } else {
-                charIndex.value++
-                dakutenIndex.value = 0
-            }
-        }
+        //         if (dakutenIndex.value >= typingSequence.length) {
+        //             charIndex.value++
+        //             dakutenIndex.value = 0
+        //             console.log('Dakuten sequence completed, moving to next character')
+        //         }
+        //     } else {
+        //         charIndex.value++
+        //         dakutenIndex.value = 0
+        //     }
+        // }
+        // console.log(charIndex.value, currentWord.value.length)
+        // if(charIndex.value === currentWord.value.length) {
+        //     nextWord()
+        // }
     }
 
     const handleKeyUp = ({ event, isShiftPressed, activeKey }) => {
@@ -154,12 +178,13 @@ export function useInputHandler() {
         }
     }
 
+
     return {
         isComposing,
         processInput,
         handleKeyDown,
-        handleKeyUp,
-        handleCompositionStart,
-        handleCompositionEnd
+        handleKeyUp
+        // handleCompositionStart,
+        // handleCompositionEnd
     }
 }

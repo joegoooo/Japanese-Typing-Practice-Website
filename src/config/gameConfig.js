@@ -7,7 +7,8 @@ export const KEYBOARD_LAYOUT = {
         { key: '1', kana: 'ぬ' }, { key: '2', kana: 'ふ' }, { key: '3', kana: 'あ' }, 
         { key: '4', kana: 'う' }, { key: '5', kana: 'え' }, { key: '6', kana: 'お' }, 
         { key: '7', kana: 'や' }, { key: '8', kana: 'ゆ' }, { key: '9', kana: 'よ' }, 
-        { key: '0', kana: 'わ' }, { key: '-', kana: 'ほ' }, { key: '=', kana: 'へ' }
+        { key: '0', kana: 'わ' }, { key: '-', kana: 'ほ' }, { key: '=', kana: 'へ' },
+        { key: 'backspace', kana: 'backspace'}
     ],
     row2: [
         { key: 'q', kana: 'た' }, { key: 'w', kana: 'て' }, { key: 'e', kana: 'い' }, 
@@ -23,10 +24,12 @@ export const KEYBOARD_LAYOUT = {
         { key: ';', kana: 'れ' }, { key: "'", kana: 'け' }
     ],
     row4: [
+        { key: 'shift', kana: 'shift'},
         { key: 'z', kana: 'つ' }, { key: 'x', kana: 'さ' }, { key: 'c', kana: 'そ' }, 
         { key: 'v', kana: 'ひ' }, { key: 'b', kana: 'こ' }, { key: 'n', kana: 'み' }, 
         { key: 'm', kana: 'も' }, { key: ',', kana: 'ね' }, { key: '.', kana: 'る' }, 
-        { key: '/', kana: 'め' }
+        { key: '/', kana: 'め' },
+        { key: 'shift', kana: 'shift'}
     ]
 }
 
@@ -36,7 +39,8 @@ export const SHIFT_KEYBOARD_LAYOUT = {
         { key: '!', kana: 'ぬ' }, { key: '@', kana: 'ふ' }, { key: '#', kana: 'ぁ' }, 
         { key: '$', kana: 'ぅ' }, { key: '%', kana: 'ぇ' }, { key: '^', kana: 'ぉ' }, 
         { key: '&', kana: 'ゃ' }, { key: '*', kana: 'ゅ' }, { key: '(', kana: 'ょ' }, 
-        { key: ')', kana: 'を' }, { key: '_', kana: 'ー' }, { key: '+', kana: 'へ' }
+        { key: ')', kana: 'を' }, { key: '_', kana: 'ー' }, { key: '+', kana: 'へ' },
+        { key: 'backspace', kana: 'backspace'}
     ],
     row2: [
         { key: 'Q', kana: 'た' }, { key: 'W', kana: 'て' }, { key: 'E', kana: 'ぃ' }, 
@@ -52,10 +56,12 @@ export const SHIFT_KEYBOARD_LAYOUT = {
         { key: ':', kana: 'れ' }, { key: '"', kana: 'け' }
     ],
     row4: [
+        { key: 'shift', kana: 'shift'},
         { key: 'Z', kana: 'っ' }, { key: 'X', kana: 'さ' }, { key: 'C', kana: 'そ' }, 
         { key: 'V', kana: 'ひ' }, { key: 'B', kana: 'こ' }, { key: 'N', kana: 'み' }, 
         { key: 'M', kana: 'も' }, { key: '<', kana: '、' }, { key: '>', kana: '。' }, 
-        { key: '?', kana: '・' }
+        { key: '?', kana: '・' },
+        { key: 'shift', kana: 'shift'}
     ]
 }
 
@@ -69,8 +75,12 @@ export const DAKUTEN_MAP = {
     'ぱ': ['は', '゜'], 'ぴ': ['ひ', '゜'], 'ぷ': ['ふ', '゜'], 'ぺ': ['へ', '゜'], 'ぽ': ['ほ', '゜']
 }
 
+export const YOUON_MAP = {
+    'ゃ': ['shift', 'ゃ'], 'ゅ': ['shift', 'ゅ'], 'ょ': ['shift', 'ょ']
+}
+
 export const GAME_CONFIG = {
-    WORDS_PER_ROUND: 10,
+    WORDS_PER_ROUND: 170,
     WORD_COMPLETION_DELAY: 300,
     CHARS_PER_WORD: 5,
     AUTO_RESTART: true,

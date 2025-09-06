@@ -1,11 +1,12 @@
 import { ref, computed } from 'vue'
 import { JAPANESE_WORDS } from '../data/dictionary.js'
-import { GAME_CONFIG } from '../config/gameConfig.js'
+import { GAME_CONFIG, DAKUTEN_MAP, YOUON_MAP } from '../config/gameConfig.js'
 import { GameUtils } from '../utils/gameUtils.js'
 
 export function useGameState() {
     // Reactive data
     const currentWord = ref('')
+    const currentTypingSequence = ref([])
     const userInput = ref('')
     const charIndex = ref(0)
     const wordsCompleted = ref(0)
@@ -47,13 +48,32 @@ export function useGameState() {
 
         // Get a random word from the JAPANESE_WORDS array, avoiding used words
         currentWord.value = GameUtils.getRandomWord(JAPANESE_WORDS, usedWords.value)
-        userInput.value = ''
         charIndex.value = 0
         dakutenIndex.value = 0
-        isWordComplete.value = false
 
+        currentTypingSequence.value = []
+        for(let i = 0; i < currentWord.value.length; i++) {
+            let kana = currentWord.value[i];
+            if(GameUtils.isKatakana(kana)) {
+                kana = GameUtils.katakanaToHiraganaMap[kana]
+            }
+            if(DAKUTEN_MAP[kana]) {
+                currentTypingSequence.value.push(DAKUTEN_MAP[kana][0])
+                currentTypingSequence.value.push(DAKUTEN_MAP[kana][1])
+            }
+            else if(YOUON_MAP[kana]) {
+                console.log(YOUON_MAP[kana])
+                for(let j = 0; j < YOUON_MAP[kana].length; j++) {
+                    currentTypingSequence.value.push(YOUON_MAP[kana][j])
+                }
+            }
+            else {
+                currentTypingSequence.value.push(kana)
+            }
+        }
+        
         console.log('New word set:', currentWord.value)
-        console.log('Used words:', usedWords.value.length, 'of', JAPANESE_WORDS.length)
+        console.log(currentTypingSequence.value)
     }
 
     const startNewRound = () => {
@@ -70,6 +90,7 @@ export function useGameState() {
     return {
         // State
         currentWord,
+        currentTypingSequence,
         userInput,
         charIndex,
         wordsCompleted,
