@@ -32,6 +32,7 @@
       </div>
       <div class="keyboard-row">
           <!-- Row 3: a..';' ' [Enter] -->
+          <div :class="['key', 'caps', { active: activeKey === 'caps' }]">Caps</div>
           <div 
             v-for="keyObj in row3" 
             :key="keyObj.key" 
