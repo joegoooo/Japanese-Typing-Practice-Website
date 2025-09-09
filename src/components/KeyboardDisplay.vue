@@ -48,7 +48,7 @@
       </div>
       <div class="keyboard-row">
           <!-- Row 4: [Shift] z.. / [Shift] -->
-          <div :class="['key', 'shift', { active: activeKey === 'shift' }]">Shift</div>
+          <div :class="['key', 'shift', { active: activeKey === 'shift', 'next-key': nextKey === 'shift' }]">Shift</div>
           <div 
             v-for="keyObj in row4" 
             :key="keyObj.key" 
@@ -60,7 +60,7 @@
               <div class="key-main">{{ keyObj.kana }}</div>
               <div class="key-sub">{{ keyObj.key }}</div>
           </div>
-          <div :class="['key', 'shift', { active: activeKey === 'shift' }]">Shift</div>
+          <div :class="['key', 'shift', { active: activeKey === 'shift', 'next-key': nextKey === 'shift' }]">Shift</div>
       </div>
       <div class="keyboard-row">
           <div :class="['key', 'space', { active: activeKey === 'space' }]">Space</div>

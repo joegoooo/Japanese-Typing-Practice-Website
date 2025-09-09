@@ -74,7 +74,6 @@ export function useInputHandler() {
  
         
 
-        let nextToType = currentTypingSequence.value[charIndex.value]
         console.log(charIndex.value, activeKey.value, nextKey.value)
         if(activeKey.value === nextKey.value) {
             charIndex.value++
@@ -108,10 +107,6 @@ export function useInputHandler() {
             isShiftPressed.value = true
         }
 
-        // Handle special keys
-        if (event.code === 'Enter' || event.code === 'Backspace') {
-            event.preventDefault()
-        }
 
         // Set active key for visual feedback
         activeKey.value = codeToKey(event.code, isShiftPressed.value)
@@ -123,35 +118,6 @@ export function useInputHandler() {
             charIndex,
             nextWord
         )
-        // Handle dakuten progression
-        // if (nextKey.value === activeKey.value) {
-        //     const currentChar = currentWord.value[charIndex.value]
-            
-        //     if (DAKUTEN_MAP[currentChar]) {
-        //         const typingSequence = DAKUTEN_MAP[currentChar]
-        //         console.log('Dakuten key pressed:', { 
-        //             currentChar, 
-        //             typingSequence, 
-        //             dakutenIndex: dakutenIndex.value,
-        //             expectedKey: typingSequence[dakutenIndex.value]
-        //         })
-                
-        //         dakutenIndex.value++
-                
-        //         if (dakutenIndex.value >= typingSequence.length) {
-        //             charIndex.value++
-        //             dakutenIndex.value = 0
-        //             console.log('Dakuten sequence completed, moving to next character')
-        //         }
-        //     } else {
-        //         charIndex.value++
-        //         dakutenIndex.value = 0
-        //     }
-        // }
-        // console.log(charIndex.value, currentWord.value.length)
-        // if(charIndex.value === currentWord.value.length) {
-        //     nextWord()
-        // }
     }
 
     const handleKeyUp = ({ event, isShiftPressed, activeKey }) => {

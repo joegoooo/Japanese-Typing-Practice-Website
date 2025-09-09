@@ -4,12 +4,22 @@ export const GameUtils = {
      * @param {Array} wordList - Array of words to choose from
      * @returns {string} Random word
      */
-    getRandomWord(wordList) {
+    getRandomWord(wordList, usedWords = []) {
         if (!wordList || wordList.length === 0) {
             return 'こんにちは' // fallback word
         }
-        const randomIndex = Math.floor(Math.random() * wordList.length)
-        return wordList[randomIndex]
+
+        const availableWords = wordList.filter(word => !usedWords.includes(word))
+
+        if (availableWords.length === 0) {
+            // All words have been used, reset or handle as needed
+            // For now, just return a random word from the original list
+            const randomIndex = Math.floor(Math.random() * wordList.length)
+            return wordList[randomIndex]
+        }
+
+        const randomIndex = Math.floor(Math.random() * availableWords.length)
+        return availableWords[randomIndex]
     },
 
     /**
@@ -87,7 +97,9 @@ export const GameUtils = {
         if (this.isKatakana(character)) {
             targetChar = this.katakanaToHiraganaMap[character]
         }
-        
+        if(targetChar === 'shift') {
+            return 'shift'
+        }
         const allKeys = [
             ...keyboardLayout.row1, 
             ...keyboardLayout.row2, 

@@ -70,7 +70,8 @@ export const DAKUTEN_MAP = {
 }
 
 export const YOUON_MAP = {
-    'ゃ': ['shift', 'ゃ'], 'ゅ': ['shift', 'ゅ'], 'ょ': ['shift', 'ょ']
+    'ゃ': ['shift', 'ゃ'], 'ゅ': ['shift', 'ゅ'], 'ょ': ['shift', 'ょ'],
+    'っ': ['shift', 'っ'], 'ー': ['shift', 'ー']
 }
 
 export const GAME_CONFIG = {
