@@ -23,7 +23,9 @@ export function useKeyboard(currentTypingSequence, charIndex, dakutenIndex) {
             if(currentTypingSequence.value) console.log(charIndex.value, currentTypingSequence.value.length)
             return null
         }
-        
+        if(charIndex.value > 0 && currentTypingSequence.value[charIndex.value-1] === 'shift' && !isShiftPressed.value) {
+            return 'shift'
+        }
         const nextChar = GameUtils.isKatakana(currentTypingSequence.value[charIndex.value]) 
             ? GameUtils.katakanaToHiraganaMap[currentTypingSequence.value[charIndex.value]] 
             : currentTypingSequence.value[charIndex.value] 

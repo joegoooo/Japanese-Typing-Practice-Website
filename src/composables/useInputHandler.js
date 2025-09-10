@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { GAME_CONFIG, DAKUTEN_MAP } from '../config/gameConfig.js'
+import { GAME_CONFIG, DAKUTEN_MAP, YOUON_MAP } from '../config/gameConfig.js'
 
 export function useInputHandler() {
     const isComposing = ref(false)
@@ -69,18 +69,16 @@ export function useInputHandler() {
         activeKey,
         nextKey,
         charIndex, 
+        currentCharIndex,
         nextWord 
     ) {
- 
-        
-
-        console.log(charIndex.value, activeKey.value, nextKey.value)
-        if(activeKey.value === nextKey.value) {
+         if(activeKey.value === nextKey.value) {
             charIndex.value++
+            let tmp = currentTypingSequence.value[charIndex.value]
+            if(tmp !== '゛' && tmp !== '゜' && !YOUON_MAP[tmp]) {
+                currentCharIndex.value++
+            }
         }
-        // if(nextToType === 'shift' && !isShiftPressed) {
-        //     charIndex.value--
-        // }
 
         if(charIndex.value === currentTypingSequence.value.length) {
             setTimeout(() => {
@@ -94,13 +92,12 @@ export function useInputHandler() {
         event, 
         isShiftPressed, 
         activeKey, 
-        nextKey,
+        nextKey, 
         charIndex,
-        dakutenIndex,
+        currentCharIndex,
         currentTypingSequence, 
         nextWord
     }) => {
-        console.log('handleKeyDown →', event.code)
         
         // Handle Shift key for layout switching
         if (event.key === 'Shift') {
@@ -110,12 +107,12 @@ export function useInputHandler() {
 
         // Set active key for visual feedback
         activeKey.value = codeToKey(event.code, isShiftPressed.value)
-
         processInput(
             currentTypingSequence,
             activeKey,
             nextKey,
             charIndex,
+            currentCharIndex,
             nextWord
         )
     }
@@ -130,27 +127,10 @@ export function useInputHandler() {
         activeKey.value = ''
     }
 
-    const handleCompositionStart = () => {
-        isComposing.value = true
-        console.log('IME composition started')
-    }
-
-    const handleCompositionEnd = (event, processInputCallback) => {
-        isComposing.value = false
-        console.log('IME composition ended:', event.data)
-        
-        if (event.target && processInputCallback) {
-            processInputCallback()
-        }
-    }
-
-
     return {
         isComposing,
         processInput,
         handleKeyDown,
         handleKeyUp
-        // handleCompositionStart,
-        // handleCompositionEnd
     }
 }

@@ -19,15 +19,6 @@
             :current-word="currentWord"
             :get-character-class="getCharacterClass"
           />
-
-          <!-- <InputArea
-            ref="inputAreaRef"
-            @input="onInput"
-            @keydown="onKeyDown"
-            @keyup="onKeyUp"
-            @compositionstart="onCompositionStart"
-            @compositionend="onCompositionEnd"
-          /> -->
       </div>
 
       <!-- Keyboard -->
@@ -54,7 +45,6 @@
 <script setup>
 import { onMounted, nextTick, ref, watch } from 'vue'
 import WordDisplay from './WordDisplay.vue'
-import InputArea from './InputArea.vue'
 import KeyboardDisplay from './KeyboardDisplay.vue'
 import { useGameState } from '../composables/useGameState.js'
 import { useKeyboard } from '../composables/useKeyboard.js'
@@ -67,15 +57,14 @@ const emit = defineEmits(['game-completed'])
 const {
     currentWord,
     currentTypingSequence,
-    userInput,
     charIndex,
     wordsCompleted,
     totalChars,
     correctChars,
     gameEnded,
-    isWordComplete,
     dakutenIndex,
     startTime,
+    currentCharIndex,
     getCharacterClass,
     nextWord,
     startNewRound
@@ -100,19 +89,7 @@ const {
     handleKeyUp,
 } = useInputHandler()
 
-// Refs
-const inputAreaRef = ref(null)
-
 // Event handlers
-const onInput = (event) => {
-    if (isComposing.value) return
-    
-    processInput({
-        currentTypingSequence,
-        charIndex, 
-        nextWord 
-    })
-}
 
 const onKeyDown = (event) => {
     handleKeyDown({
@@ -121,7 +98,7 @@ const onKeyDown = (event) => {
         activeKey, 
         nextKey, 
         charIndex,
-        dakutenIndex,
+        currentCharIndex,
         currentTypingSequence, 
         nextWord
     })
@@ -135,17 +112,6 @@ const onKeyUp = (event) => {
     })
 }
 
-// const onCompositionStart = () => {
-//     handleCompositionStart()
-// }
-
-// const onCompositionEnd = (event) => {
-//     handleCompositionEnd(event, () => {
-//         if (inputAreaRef.value) {
-//             onInput({ target: inputAreaRef.value.getInputElement() })
-//         }
-//     })
-// }
 
 // Watch for game completion
 watch(gameEnded, (newValue) => {

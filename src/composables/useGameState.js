@@ -7,22 +7,19 @@ export function useGameState() {
     // Reactive data
     const currentWord = ref('')
     const currentTypingSequence = ref([])
-    const userInput = ref('')
     const charIndex = ref(0)
     const wordsCompleted = ref(0)
     const totalChars = ref(0)
     const correctChars = ref(0)
-    const isWordComplete = ref(false)
     const gameEnded = ref(false)
     const dakutenIndex = ref(0)
     const startTime = ref(null)
     const usedWords = ref([]) // Track words used in current round
+    const currentCharIndex = ref(0)
 
     // Computed properties
     const getCharacterClass = (index) => {
-        if (index < userInput.value.length) {
-            return userInput.value[index] === currentWord.value[index] ? 'correct' : 'incorrect'
-        } else if (index === userInput.value.length) {
+        if(index === currentCharIndex.value) {
             return 'current'
         }
         return ''
@@ -50,6 +47,7 @@ export function useGameState() {
         currentWord.value = GameUtils.getRandomWord(JAPANESE_WORDS, usedWords.value)
         charIndex.value = 0
         dakutenIndex.value = 0
+        currentCharIndex.value = 0
 
         currentTypingSequence.value = []
         for(let i = 0; i < currentWord.value.length; i++) {
@@ -88,21 +86,16 @@ export function useGameState() {
     }
 
     return {
-        // State
         currentWord,
         currentTypingSequence,
-        userInput,
         charIndex,
         wordsCompleted,
         totalChars,
         correctChars,
         gameEnded,
-        isWordComplete,
         dakutenIndex,
         startTime,
-        usedWords,
-        
-        // Methods
+        currentCharIndex,
         getCharacterClass,
         nextWord,
         startNewRound
