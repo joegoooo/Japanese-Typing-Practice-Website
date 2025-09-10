@@ -25,12 +25,24 @@ export function useGameState() {
         return ''
     }
 
+    const saveUsedWords = () => {
+        localStorage.setItem('usedWords', JSON.stringify(usedWords.value))
+    }
+
+    const loadUsedWords = () => {
+        const saved = localStorage.getItem('usedWords')
+        if (saved) {
+            usedWords.value = JSON.parse(saved)
+        }
+    }
+
     // Methods
     const nextWord = () => {
         console.log('nextWord called')
         
         if (wordsCompleted.value >= GAME_CONFIG.WORDS_PER_ROUND) {
             gameEnded.value = true
+            saveUsedWords()
             return
         }
 
@@ -82,6 +94,7 @@ export function useGameState() {
         gameEnded.value = false
         usedWords.value = [] // Reset used words for new round
         startTime.value = Date.now()
+        loadUsedWords()
         nextWord()
     }
 

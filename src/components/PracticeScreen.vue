@@ -2,15 +2,14 @@
   <div 
     class="practice-screen"
     tabindex="0"
-    @input="onInput"
-    @keydown.prevent="onKeyDown"
+    @keydown="onKeyDown"
     @keyup="onKeyUp"
   >
     <div class="practice-container">
       <!-- Header -->
       <div class="practice-header">
           <div class="app-title">日本語タイピング</div>
-          <div class="word-counter">{{ wordsCompleted }}/{{ JAPANESE_WORDS.length }}</div>
+          <div class="word-counter">{{ wordsCompleted }}/{{ GAME_CONFIG.WORDS_PER_ROUND }}</div>
       </div>
 
       <!-- Main typing area -->
@@ -49,7 +48,7 @@ import KeyboardDisplay from './KeyboardDisplay.vue'
 import { useGameState } from '../composables/useGameState.js'
 import { useKeyboard } from '../composables/useKeyboard.js'
 import { useInputHandler } from '../composables/useInputHandler.js'
-import { JAPANESE_WORDS } from '../data/dictionary.js'
+import { GAME_CONFIG } from '../config/gameConfig.js'
 
 const emit = defineEmits(['game-completed'])
 
@@ -83,8 +82,6 @@ const {
 } = useKeyboard(currentTypingSequence, charIndex, dakutenIndex)
 
 const {
-    isComposing,
-    processInput,
     handleKeyDown,
     handleKeyUp,
 } = useInputHandler()

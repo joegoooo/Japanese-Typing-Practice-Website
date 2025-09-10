@@ -99,6 +99,11 @@ export function useInputHandler() {
         nextWord
     }) => {
         
+        if (event.ctrlKey || event.metaKey || event.altKey || event.key.startsWith('F')) {
+            return
+        }
+        event.preventDefault()
+        
         // Handle Shift key for layout switching
         if (event.key === 'Shift') {
             isShiftPressed.value = true

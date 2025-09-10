@@ -75,7 +75,7 @@ export const YOUON_MAP = {
 }
 
 export const GAME_CONFIG = {
-    WORDS_PER_ROUND: 170,
+    WORDS_PER_ROUND: 20,
     WORD_COMPLETION_DELAY: 300,
     CHARS_PER_WORD: 5,
     AUTO_RESTART: true,
